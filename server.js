@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 // MongoDB Connection
 console.log("Bunu görebiliyor musun Emre?")
-const MONGO_URI =
+/* const MONGO_URI =
   "mongodb+srv://emrekabadayi7:fMa83ne9dMCliqdn@GuyanaF2.t6schpd.mongodb.net/newsDB";
   mongoose.connect(process.env.MONGO_URI);
   // MongoDB Connection
@@ -54,7 +54,7 @@ db.once("open", () => {
 
   console.log(News);
   // Example: Get all news documents
-  app.get("/news", async (req, res) => {
+ /* app.get("/news", async (req, res) => {
     try {
       const result = await News.find({});
       res.send(result);
@@ -62,12 +62,12 @@ db.once("open", () => {
       console.error("Error retrieving news:", err);
       res.status(500).send("Error retrieving news");
     }
-  });
+  }); */
 
   app.get("/", (req,res) => {
 
     console.log("ananın amı kılıçdaroğlu");
-    
+
     <h1>ananın amı kılıçdaroğlu al.</h1>
     })
 
@@ -100,4 +100,4 @@ https://i.imgur.com/vsi87se.jpg
   app.listen(port, () => {
     console.log(`Server started on port ${port}`);
   });
-});
+
