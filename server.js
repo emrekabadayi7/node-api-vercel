@@ -64,6 +64,11 @@ db.once("open", () => {
     }
   });
 
+  app.get("/", (req,res) => {
+
+    <h1>ananın amı kılıçdaroğlu al.</h1>
+    })
+
   // Code to insert a document
 
   /*
