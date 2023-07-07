@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 console.log("bunu gorebiliyor musun?")
+
 // MongoDB Connection
   mongoose.connect(process.env.MONGO_URI);
   // MongoDB Connection
@@ -61,6 +62,13 @@ db.once("open", () => {
       res.status(500).send("Error retrieving news");
     }
   });
+
+  app.get("/", (req, res) => {
+
+    <h1>ananin ami kilicdaroglu al...</h1>
+    console.log("ananin ami kilicdaroglu")
+
+  })
 
   // Code to insert a document
 
