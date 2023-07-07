@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 console.log("bunu gorebiliyor musun?")
 
 // MongoDB Connection
-  mongoose.connect(process.env.MONGO_URI);
+  mongoose.connect(process.env.MONGODB_URI);
   // MongoDB Connection
 
 const db = mongoose.connection;
@@ -65,8 +65,7 @@ db.once("open", () => {
 
   app.get("/", (req, res) => {
 
-    <h1>ananin ami kilicdaroglu al...</h1>
-    console.log("ananin ami kilicdaroglu")
+    console.log("ananin ami kilicdaroglu");
 
   })
 
