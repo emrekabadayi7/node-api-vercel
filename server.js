@@ -66,6 +66,8 @@ db.once("open", () => {
 
   app.get("/", (req,res) => {
 
+    console.log("ananın amı kılıçdaroğlu");
+    
     <h1>ananın amı kılıçdaroğlu al.</h1>
     })
 
