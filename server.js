@@ -1,103 +1,20 @@
-const express = require("express");
-const dotenv = require("dotenv");
-dotenv.config();
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+// index.js
+const express = require('express')
 
-const app = express();
-const port = 3001;
+const app = express()
+const PORT = 4000
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.listen(PORT, () => {
+  console.log(`API listening on PORT ${PORT} `)
+})
 
-// MongoDB Connection
-console.log("Bunu görebiliyor musun Emre?")
-/* const MONGO_URI =
-  "mongodb+srv://emrekabadayi7:fMa83ne9dMCliqdn@GuyanaF2.t6schpd.mongodb.net/newsDB";
-  mongoose.connect(process.env.MONGO_URI);
-  // MongoDB Connection
+app.get('/', (req, res) => {
+  res.send('Hey this is my API running 🥳')
+})
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "Connection error:"));
-db.once("open", () => {
-  console.log("Connected to MongoDB!");
+app.get('/about', (req, res) => {
+  res.send('This is my about route..... ')
+})
 
-  // Define a schema for the news collection
-  const newsSchema = new mongoose.Schema({
-    date: String,
-    year: Number,
-    title: String,
-    desc1: String,
-    img: String,
-    imgText: String,
-    desc2: String,
-    img2: String,
-    img2Text: String,
-    desc3: String,
-    img3: String,
-    img3Text: String,
-    desc4: String,
-    img4: String,
-    img4Text: String,
-    img5: String,
-    img5Text: String,
-    img6: String,
-    img6Text: String,
-    img7: String,
-    img7Text: String,
-  });
-  // Define a schema for the news collection
-
-  // Create a model based on the schema
-  const News = mongoose.model("newsDB", newsSchema, "news");
-
-  console.log(News);
-  // Example: Get all news documents
- /* app.get("/news", async (req, res) => {
-    try {
-      const result = await News.find({});
-      res.send(result);
-    } catch (err) {
-      console.error("Error retrieving news:", err);
-      res.status(500).send("Error retrieving news");
-    }
-  }); */
-
-  app.get("/", (req,res) => {
-
-    console.log("ananın amı kılıçdaroğlu");
-
-    <h1>ananın amı kılıçdaroğlu al.</h1>
-    })
-
-  // Code to insert a document
-
-  /*
-  
-https://i.imgur.com/WnkbSHH.jpg
-https://i.imgur.com/MKBDkqY.jpg
-https://i.imgur.com/b9bTtRt.jpg
-https://i.imgur.com/vsi87se.jpg
-
-*/
-
-  /* Code to insert a document
-  const document = {
-    
-  };
-
-  News.create(document)
-    .then((result) => {
-      console.log("Document inserted successfully:", result._id);
-    })
-    .catch((err) => {
-      console.error("Error inserting document:", err);
-    });
-
-    */
-
-  app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-  });
-
+// Export the Express API
+module.exports = app
