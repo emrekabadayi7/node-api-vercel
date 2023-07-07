@@ -11,9 +11,8 @@ const port = 3001;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+console.log("bunu gorebiliyor musun?")
 // MongoDB Connection
-const MONGO_URI =
-  "mongodb+srv://emrekabadayi7:fMa83ne9dMCliqdn@GuyanaF2.t6schpd.mongodb.net/newsDB";
   mongoose.connect(process.env.MONGO_URI);
   // MongoDB Connection
 
