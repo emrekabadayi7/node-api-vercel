@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // MongoDB Connection
+console.log("Bunu görebiliyor musun Emre?")
 const MONGO_URI =
   "mongodb+srv://emrekabadayi7:fMa83ne9dMCliqdn@GuyanaF2.t6schpd.mongodb.net/newsDB";
   mongoose.connect(process.env.MONGO_URI);
