@@ -19,6 +19,10 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 console.log("bunu gorebiliyor musun?")
 
@@ -54,6 +58,40 @@ db.once("open", () => {
     img6Text: String,
     img7: String,
     img7Text: String,
+    img8: String,
+    img8Text: String,
+    img9: String,
+    img9Text: String,
+    img10: String,
+    img10Text: String,
+    img11: String,
+    img11Text: String,
+    img12: String,
+    img12Text: String,
+    img13: String,
+    img13Text: String,
+    img14: String,
+    img14Text: String,
+    img15: String,
+    img15Text: String,
+    img16: String,
+    img16Text: String,
+    img17: String,
+    img17Text: String,
+    img18: String,
+    img18Text: String,
+    img19: String,
+    img19Text: String,
+    img20: String,
+    img20Text: String,
+    img21: String,
+    img21Text: String,
+    img22: String,
+    img22Text: String,
+    img23: String,
+    img23Text: String,
+    img24: String,
+    img24Text: String,
   });
   // Define a schema for the news collection
 
@@ -71,6 +109,7 @@ db.once("open", () => {
       res.status(500).send("Error retrieving news");
     }
   });
+  
 
   app.get("/", (req, res) => {
 
