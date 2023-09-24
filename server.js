@@ -25,9 +25,9 @@ app.use((req, res, next) => {
 });
 
 console.log("bunu gorebiliyor musun?")
-
+const MONGO_URI = mongodb+srv://vercel-admin-user:2V4SP6o8DI5KxWpY@GuyanaF2.t6schpd.mongodb.net/newsDB
 // MongoDB Connection
-  mongoose.connect(mongodb+srv://vercel-admin-user:2V4SP6o8DI5KxWpY@GuyanaF2.t6schpd.mongodb.net/newsDB);
+  mongoose.connect(MONGO_URI);
   // MongoDB Connection
 
 const db = mongoose.connection;
