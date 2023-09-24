@@ -25,10 +25,10 @@ app.use((req, res, next) => {
 });
 
 console.log("bunu gorebiliyor musun?")
-const MONGO_URI = mongodb+srv://vercel-admin-user:2V4SP6o8DI5KxWpY@GuyanaF2.t6schpd.mongodb.net/newsDB
 // MongoDB Connection
-  mongoose.connect(MONGO_URI);
+  mongoose.connect(process.env.MONGO_URI);
   // MongoDB Connection
+console.log(typeof process.env.MONGO_URI);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
