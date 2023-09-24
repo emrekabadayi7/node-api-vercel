@@ -26,9 +26,9 @@ app.use((req, res, next) => {
 
 console.log("bunu gorebiliyor musun?")
 // MongoDB Connection
-  mongoose.connect(process.env.MONGO_URI);
+  mongoose.connect(process.env.MONGODB_URI);
   // MongoDB Connection
-console.log(typeof process.env.MONGO_URI);
+console.log(typeof process.env.MONGODB_URI);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
