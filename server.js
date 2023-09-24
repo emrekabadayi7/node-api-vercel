@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 console.log("bunu gorebiliyor musun?")
 
 // MongoDB Connection
-  mongoose.connect(process.env.MONGODB_URI);
+  mongoose.connect(mongodb+srv://vercel-admin-user:2V4SP6o8DI5KxWpY@GuyanaF2.t6schpd.mongodb.net/newsDB);
   // MongoDB Connection
 
 const db = mongoose.connection;
