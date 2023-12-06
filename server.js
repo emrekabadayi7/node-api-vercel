@@ -111,11 +111,7 @@ db.once("open", () => {
   });
   
 
-  app.get("/", (req, res) => {
 
-    console.log("ananin ami kilicdaroglu");
-
-  })
 
   // Code to insert a document
 
