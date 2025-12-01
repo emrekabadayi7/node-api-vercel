@@ -277,25 +277,12 @@ db.once("open", () => {
     }
   });
 
-  // POST: Create new news article (with rate limiting and validation)
-  app.post("/news", rateLimiter, async (req, res) => {
-    try {
-      // Validate input data
-      const validationErrors = validateNewsData(req.body);
-      if (validationErrors.length > 0) {
-        return res.status(400).json({ errors: validationErrors });
-      }
-
-      // Create new news document
-      const newsData = new News(req.body);
-      const savedNews = await newsData.save();
-
-      console.log("New news article created:", savedNews._id);
-      res.status(201).json({ message: "News created successfully", data: savedNews });
-    } catch (err) {
-      console.error("Error creating news:", err);
-      res.status(500).json({ error: "Error creating news article" });
-    }
+  // POST: Direct creation DISABLED - use pending review workflow instead
+  app.post("/news", (req, res) => {
+    res.status(403).json({
+      error: "Direct news creation is disabled. Use /newsPendingReview endpoint instead.",
+      message: "All news must go through the review process before publication."
+    });
   });
 
   // PUT: Update existing news article by ID
@@ -333,29 +320,12 @@ db.once("open", () => {
     }
   });
 
-  // DELETE: Remove news article by ID
-  app.delete("/news/:id", rateLimiter, async (req, res) => {
-    try {
-      const { id } = req.params;
-
-      // Validate ObjectId
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ error: "Invalid news ID" });
-      }
-
-      // Delete the news document
-      const deletedNews = await News.findByIdAndDelete(id);
-
-      if (!deletedNews) {
-        return res.status(404).json({ error: "News article not found" });
-      }
-
-      console.log("News article deleted:", id);
-      res.json({ message: "News deleted successfully", data: deletedNews });
-    } catch (err) {
-      console.error("Error deleting news:", err);
-      res.status(500).json({ error: "Error deleting news article" });
-    }
+  // DELETE: Deletion DISABLED - use MongoDB Compass for manual deletion
+  app.delete("/news/:id", (req, res) => {
+    res.status(403).json({
+      error: "Direct deletion is disabled for safety.",
+      message: "Use MongoDB Compass to manually delete news articles."
+    });
   });
 
   // Health check endpoint
