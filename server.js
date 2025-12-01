@@ -150,6 +150,122 @@ db.once("open", () => {
   // Create a model based on the schema
   const News = mongoose.model("News", newsSchema, "news");
 
+  // Create schema for pending news review
+  const pendingNewsSchema = new mongoose.Schema({
+    ...newsSchema.obj, // Inherit all fields from news schema
+    submittedAt: { type: Date, default: Date.now },
+    status: { type: String, default: 'pending' }
+  });
+
+  const PendingNews = mongoose.model("PendingNews", pendingNewsSchema, "newsPendingReview");
+
+  // ===== PENDING REVIEW ENDPOINTS =====
+
+  // GET: Fetch all pending news for review
+  app.get("/newsPendingReview", async (req, res) => {
+    try {
+      const result = await PendingNews.find({});
+      res.json(result);
+    } catch (err) {
+      console.error("Error retrieving pending news:", err);
+      res.status(500).json({ error: "Error retrieving pending news" });
+    }
+  });
+
+  // POST: Submit news for review (instead of direct publish)
+  app.post("/newsPendingReview", rateLimiter, async (req, res) => {
+    try {
+      // Validate input data
+      const validationErrors = validateNewsData(req.body);
+      if (validationErrors.length > 0) {
+        return res.status(400).json({ errors: validationErrors });
+      }
+
+      // Create new pending news document
+      const pendingNewsData = new PendingNews({
+        ...req.body,
+        submittedAt: new Date(),
+        status: 'pending'
+      });
+      const savedPendingNews = await pendingNewsData.save();
+
+      console.log("News submitted for review:", savedPendingNews._id);
+      res.status(201).json({ message: "News submitted for review", data: savedPendingNews });
+    } catch (err) {
+      console.error("Error submitting news for review:", err);
+      res.status(500).json({ error: "Error submitting news for review" });
+    }
+  });
+
+  // POST: Approve pending news (moves to main news collection)
+  app.post("/newsPendingReview/:id/approve", rateLimiter, async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // Validate ObjectId
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: "Invalid news ID" });
+      }
+
+      // Find pending news
+      const pendingNews = await PendingNews.findById(id);
+
+      if (!pendingNews) {
+        return res.status(404).json({ error: "Pending news not found" });
+      }
+
+      // Remove pending-specific fields
+      const newsToPublish = pendingNews.toObject();
+      delete newsToPublish._id;
+      delete newsToPublish.submittedAt;
+      delete newsToPublish.status;
+      delete newsToPublish.__v;
+
+      // Add to main news collection
+      newsToPublish.createdFromAdmin = true;
+      newsToPublish.approvedAt = new Date();
+
+      const publishedNews = new News(newsToPublish);
+      await publishedNews.save();
+
+      // Remove from pending
+      await PendingNews.findByIdAndDelete(id);
+
+      console.log("News approved and published:", publishedNews._id);
+      res.json({ message: "News approved and published successfully", data: publishedNews });
+    } catch (err) {
+      console.error("Error approving news:", err);
+      res.status(500).json({ error: "Error approving news" });
+    }
+  });
+
+  // DELETE: Reject pending news
+  app.delete("/newsPendingReview/:id", rateLimiter, async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // Validate ObjectId
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: "Invalid news ID" });
+      }
+
+      // Delete the pending news
+      const deletedPending = await PendingNews.findByIdAndDelete(id);
+
+      if (!deletedPending) {
+        return res.status(404).json({ error: "Pending news not found" });
+      }
+
+      console.log("Pending news rejected and deleted:", id);
+      res.json({ message: "Pending news rejected and deleted", data: deletedPending });
+    } catch (err) {
+      console.error("Error rejecting pending news:", err);
+      res.status(500).json({ error: "Error rejecting pending news" });
+    }
+  });
+
+  // ===== END PENDING REVIEW ENDPOINTS =====
+
   // GET: Fetch all news documents
   app.get("/news", async (req, res) => {
     try {
