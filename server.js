@@ -144,6 +144,9 @@ db.once("open", () => {
     img23Text: String,
     img24: String,
     img24Text: String,
+    // Admin metadata — must be in schema or Mongoose strict mode drops them silently
+    createdFromAdmin: { type: Boolean, default: false },
+    approvedAt: { type: Date },
   });
   // Define a schema for the news collection
 
